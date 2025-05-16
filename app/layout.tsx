@@ -1,23 +1,31 @@
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import "./globals.css"
-import localFont from "next/font/local"
-import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
+import { ThemeProvider } from "@/components/theme-provider"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import type { Metadata } from "next"
+import { Geist, Geist_Mono, Nanum_Myeongjo } from "next/font/google"
+import localFont from "next/font/local"
+import "@/styles/globals.css"
+import { Header } from "@/components/header"
 
 const pretendard = localFont({
   src: "../assets/PretendardVariable.woff2",
   variable: "--font-pretendard",
 })
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// })
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+})
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+})
+
+const nanumMyeongjo = Nanum_Myeongjo({
+  variable: "--font-nanum-myeongjo",
+  subsets: ["latin"],
+  weight: ["400", "700", "800"],
 })
 
 export const metadata: Metadata = {
@@ -31,14 +39,28 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistMono.variable} ${pretendard.variable} antialiased`}
+        className={`${geistMono.variable} ${geistSans.variable} ${nanumMyeongjo.variable} ${pretendard.variable} bg-background min-h-svh font-sans antialiased`}
       >
-        <SidebarProvider>
-          <AppSidebar />
-          {children}
-        </SidebarProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {/* <AnimatedGridPattern
+          maxOpacity={0.1}
+          className="skew-y-12 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+        /> */}
+          <SidebarProvider>
+            {/* <AppSidebar /> */}
+            <div className="w-full">
+              <Header />
+              {children}
+            </div>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

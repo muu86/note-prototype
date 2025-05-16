@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
   /* config options here */
-};
+  transpilePackages: ["three"],
 
-export default nextConfig;
+  webpack: (config, options) => {
+    config.module.rules.push({
+      test: /\.glsl$/,
+      exclude: /node_modules/,
+      type: "asset/source",
+    })
+    return config
+  },
+}
+
+export default nextConfig

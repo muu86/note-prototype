@@ -1,0 +1,5 @@
+@utility section {
+  max-width: var(--container-7xl);
+  margin-left: auto;
+  margin-right: auto;
+}
